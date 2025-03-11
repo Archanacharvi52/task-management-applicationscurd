@@ -1,0 +1,61 @@
+<div class="task-manager">
+  <h2>Task Manager</h2>
+
+  <!-- Task Input Form -->
+  <div class="task-input">
+    <input type="text" placeholder="Enter task title..." [(ngModel)]="newTask.title" required>
+
+    <select [(ngModel)]="newTask.category" required>
+      <option value="" disabled selected>Select Category</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+
+    <button (click)="addTask()">Add Task</button>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="filters">
+    <input type="text" placeholder="Search tasks..." [(ngModel)]="searchQuery">
+
+    <select [(ngModel)]="filterCategory">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+
+    <select [(ngModel)]="filterStatus">
+      <option value="">All</option>
+      <option value="pending">Pending</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+
+  <!-- Task Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of filteredTasks(); trackBy: trackByIndex">
+        <td>{{ task.title }}</td>
+        <td>{{ task.category }}</td>
+        <td>
+          <span [class.completed]="task.completed">{{ task.completed ? 'Completed' : 'Pending' }}</span>
+        </td>
+        <td>
+          <button class="edit-btn" (click)="editTask(task)">Edit</button>
+          <button class="delete-btn" (click)="deleteTask(task)">Delete</button>
+          <button class="status-btn" (click)="toggleStatus(task)">
+            {{ task.completed ? 'Mark Pending' : 'Mark Complete' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-tasks></app-tasks>
+

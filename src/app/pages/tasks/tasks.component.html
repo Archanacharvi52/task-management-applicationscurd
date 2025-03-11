@@ -1,0 +1,50 @@
+<div class="task-manager">
+    <h2>Task Manager</h2>
+
+    <!-- Search and Filter Section -->
+    <div class="filter-section">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="🔍 Search tasks..." />
+
+        <select [(ngModel)]="filterCategory">
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+
+        <select [(ngModel)]="filterStatus">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </div>
+
+    <!-- Task Input Section -->
+    <div class="task-input">
+        <input type="text" [(ngModel)]="taskName" placeholder="📝 Enter task name" />
+        <select [(ngModel)]="taskCategory">
+            <option value="">Select Category</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+        <button (click)="createTask()">➕ Add Task</button>
+    </div>
+
+    <!-- Task Cards -->
+    <div class="task-list">
+        <div *ngFor="let task of filteredTasks(); let i = index" class="task-card">
+            <div class="task-details">
+                <h3>{{ task.name }}</h3>
+                <p class="category">📌 {{ task.category }}</p>
+                <span class="status" [ngClass]="{'completed': task.status === 'Completed', 'pending': task.status === 'Pending'}">
+                    {{ task.status }}
+                </span>
+            </div>
+
+            <div class="task-actions">
+                <button (click)="editTask(i)">✏️ Edit</button>
+                <button (click)="deleteTask(i)">🗑️ Delete</button>
+                <button (click)="toggleStatus(i)">
+                    ✅ {{ task.status === 'Pending' ? 'Mark Done' : 'Undo' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
